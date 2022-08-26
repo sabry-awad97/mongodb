@@ -21,7 +21,7 @@ afterAll(async () => {
 
 beforeEach(async () => {
   await User.collection.drop();
-  user = new User({ name: userName, postCount: 0 });
+  user = new User({ name: userName, likes: 0 });
   await user.save();
 });
 
@@ -65,12 +65,9 @@ describe('Updating records', () => {
     expect(users![0].name).toEqual(updatedUserName);
   });
 
-  it('should increment record postCount by 1', async () => {
-    await User.updateOne(
-      { name: userName },
-      { $inc: { postCount: increment } }
-    );
+  it('should increment record likes by 1', async () => {
+    await User.updateOne({ name: userName }, { $inc: { likes: increment } });
     const users = await User.find({ name: userName });
-    expect(users![0].postCount).toEqual(user.postCount + increment);
+    expect(users![0].likes).toEqual(user.likes + increment);
   });
 });

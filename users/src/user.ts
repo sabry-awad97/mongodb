@@ -3,8 +3,9 @@ import PostSchema, { IPost } from './post';
 
 interface IUser {
   name: string;
-  postCount: number;
   posts: Types.DocumentArray<IPost>;
+  postCount: number;
+  likes: number;
 }
 
 export interface IUserDoc extends IUser, Document {}
@@ -22,10 +23,12 @@ const UserSchema = new Schema<IUserDoc>({
     },
     required: [true, 'Name must be provided.'],
   },
-  postCount: {
-    type: Number,
-  },
+  likes: Number,
   posts: [PostSchema],
+});
+
+UserSchema.virtual('postCount').get(function (this: IUser) {
+  return this.posts.length;
 });
 
 UserSchema.static('any', async function any(query) {
