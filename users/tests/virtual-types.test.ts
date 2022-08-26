@@ -1,4 +1,4 @@
-import { describe, it, beforeAll, afterAll, expect } from 'vitest';
+import { describe, it, beforeAll, afterAll, expect, beforeEach } from 'vitest';
 import database from '../src';
 import User from '../src/user';
 
@@ -11,6 +11,10 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await database.disconnect();
+});
+
+beforeEach(async () => {
+  await User.collection.drop();
 });
 
 describe('Virtual Types', async () => {
