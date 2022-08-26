@@ -1,11 +1,6 @@
-import { Types } from 'mongoose';
 import { describe, it, beforeAll, afterAll, beforeEach, expect } from 'vitest';
 import database from '../src';
-import User, { IUserDoc } from '../src/user';
-
-let user: IUserDoc & {
-  _id: Types.ObjectId;
-};
+import User from '../src/user';
 
 const userName = 'John';
 
@@ -23,7 +18,7 @@ beforeEach(async () => {
 
 describe('Creating records', () => {
   it('should save a new user', async () => {
-    user = new User({ name: userName });
+    const user = new User({ name: userName });
     expect(user.isNew).toEqual(true);
     await user.save();
     expect(user.isNew).toEqual(false);
