@@ -8,7 +8,7 @@ describe('User', () => {
   });
 
   beforeEach(async () => {
-    // await database.dropCollection('users');
+    // database.connection.dropCollection('users');
     await User.collection.drop();
   });
 
