@@ -1,15 +1,15 @@
+import { Types } from 'mongoose';
 import { describe, it, beforeAll, afterAll, beforeEach, expect } from 'vitest';
 import database from '../src';
-import User from '../src/user';
+import User, { IUserDoc } from '../src/user';
 
 describe('User', () => {
+  let user: IUserDoc & {
+    _id: Types.ObjectId;
+  };
+
   beforeAll(async () => {
     await database.connect('users_test');
-  });
-
-  beforeEach(async () => {
-    // database.connection.dropCollection('users');
-    await User.collection.drop();
   });
 
   afterAll(async () => {
@@ -17,10 +17,21 @@ describe('User', () => {
   });
 
   describe('Creating records', () => {
-    it('should saves a new user', async () => {
-      const joe = new User({ name: 'Joe' });
-      await joe.save();
-      expect(!joe.isNew).toEqual(true);
+    beforeEach(async () => {
+      await User.collection.drop();
+    });
+
+    it('should save a new user', async () => {
+      user = new User({ name: 'Joe' });
+      await user.save();
+      expect(!user.isNew).toEqual(true);
+    });
+  });
+
+  describe('Reading records', () => {
+    it('should find records with a given name', async () => {
+      const users = await User.find({ name: 'Joe' }).select('name');
+      expect(users[0]._id).toEqual(user._id);
     });
   });
 });

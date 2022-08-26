@@ -4,7 +4,7 @@ interface IUser {
   name: string;
 }
 
-interface IUserDoc extends IUser, Document {}
+export interface IUserDoc extends IUser, Document {}
 
 const UserSchema = new Schema<IUserDoc>({
   name: String,
