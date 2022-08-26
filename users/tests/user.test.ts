@@ -20,19 +20,6 @@ describe('User', () => {
     await database.disconnect();
   });
 
-  describe('Reading records', () => {
-    it('should find records with a given name', async () => {
-      const users = await User.find({ name: userName }).select('name');
-      expect(users[0]._id).toEqual(user._id);
-      expect(users[0]._id.toString()).toBe(user._id.toString());
-    });
-
-    it('should find record with a given id', async () => {
-      const found = await User.findOne({ id: user._id });
-      expect(found!.name).toEqual(user.name);
-    });
-  });
-
   describe('Deleting records', () => {
     beforeEach(async () => {
       await User.collection.drop();
