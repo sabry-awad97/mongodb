@@ -139,4 +139,14 @@ describe('User', () => {
       expect(users![0].postCount).toEqual(user.postCount + increment);
     });
   });
+
+  describe('Validating records', async () => {
+    it('should validate record with required fields using validateSync', async () => {
+      const user = new User({ name: null });
+      const validationError = user.validateSync();
+      expect(validationError?.errors.name.message).toMatch(
+        'Name must be provided.'
+      );
+    });
+  });
 });

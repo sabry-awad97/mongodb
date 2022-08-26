@@ -12,7 +12,10 @@ interface IUserModel extends Model<IUser> {
 }
 
 const UserSchema = new Schema<IUserDoc>({
-  name: String,
+  name: {
+    type: String,
+    required: [true, 'Name must be provided.'],
+  },
   postCount: {
     type: Number,
   },
