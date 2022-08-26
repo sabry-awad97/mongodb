@@ -32,6 +32,12 @@ describe('User', () => {
     it('should find records with a given name', async () => {
       const users = await User.find({ name: 'Joe' }).select('name');
       expect(users[0]._id).toEqual(user._id);
+      expect(users[0]._id.toString()).toBe(user._id.toString());
+    });
+
+    it('should find record with a given id', async () => {
+      const found = await User.findOne({ id: user._id });
+      expect(found!.name).toEqual(user.name);
     });
   });
 });
