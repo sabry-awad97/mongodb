@@ -1,20 +1,21 @@
 import { model, Schema, Document, Model, Types } from 'mongoose';
 import PostSchema, { IPost } from './post';
 
-interface IUser {
+export interface IUser {
   name: string;
   posts: Types.DocumentArray<IPost>;
   postCount: number;
   likes: number;
+  blogPosts: Types.ObjectId;
 }
 
-export interface IUserDoc extends IUser, Document {}
+interface IUserDoc extends IUser, Document {}
 
 interface IUserModel extends Model<IUser> {
   any(...args: Parameters<typeof Model.findOne>): Promise<boolean>;
 }
 
-const UserSchema = new Schema<IUserDoc>({
+const UserSchema = new Schema<IUser>({
   name: {
     type: String,
     validate: {
@@ -25,6 +26,7 @@ const UserSchema = new Schema<IUserDoc>({
   },
   likes: Number,
   posts: [PostSchema],
+  blogPosts: { type: Schema.Types.ObjectId, ref: 'BlogPost' },
 });
 
 UserSchema.virtual('postCount').get(function (this: IUser) {
@@ -36,6 +38,6 @@ UserSchema.static('any', async function any(query) {
   return result ? true : false;
 });
 
-const User = model<IUserDoc, IUserModel>('user', UserSchema);
+const User = model<IUserDoc, IUserModel>('User', UserSchema);
 
 export default User;

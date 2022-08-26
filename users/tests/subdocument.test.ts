@@ -1,11 +1,9 @@
-import { Types } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { describe, it, beforeAll, afterAll, beforeEach, expect } from 'vitest';
 import database from '../src';
-import User, { IUserDoc } from '../src/user';
+import User, { IUser } from '../src/user';
 
-let user: IUserDoc & {
-  _id: Types.ObjectId;
-};
+let user: HydratedDocument<IUser>;
 
 const userName = 'John';
 const title = 'title';
