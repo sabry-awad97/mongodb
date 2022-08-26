@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Error, Types } from 'mongoose';
 import { describe, it, beforeAll, afterAll, beforeEach, expect } from 'vitest';
 import database from '../src';
 import User, { IUserDoc } from '../src/user';
@@ -147,6 +147,33 @@ describe('User', () => {
       expect(validationError?.errors.name.message).toMatch(
         'Name must be provided.'
       );
+    });
+
+    it('should validate record more than 2 characters using validateSync', async () => {
+      const user = new User({ name: 'AB' });
+      const validationError = user.validateSync();
+      console.log(validationError);
+
+      expect(validationError?.errors.name.message).toMatch(
+        'Name must be longer than 2 characters.'
+      );
+    });
+
+    it('should validate record more than 2 characters using instance method validate', async () => {
+      const user = new User({ name: 'AB' });
+      const t = async () => {
+        await user.validate();
+      };
+
+      await expect(t).rejects.toThrow();
+      await expect(t).rejects.toBeInstanceOf(Error.ValidationError);
+      await expect(t).rejects.toMatchObject({
+        errors: {
+          name: {
+            message: 'Name must be longer than 2 characters.',
+          },
+        },
+      });
     });
   });
 });

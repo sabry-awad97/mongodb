@@ -14,6 +14,10 @@ interface IUserModel extends Model<IUser> {
 const UserSchema = new Schema<IUserDoc>({
   name: {
     type: String,
+    validate: {
+      validator: (name: string) => name.length > 2,
+      message: 'Name must be longer than 2 characters.',
+    },
     required: [true, 'Name must be provided.'],
   },
   postCount: {
