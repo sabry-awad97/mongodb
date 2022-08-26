@@ -17,14 +17,15 @@ afterAll(async () => {
   await database.disconnect();
 });
 
-describe('Creating records', () => {
-  beforeEach(async () => {
-    await User.collection.drop();
-  });
+beforeEach(async () => {
+  await User.collection.drop();
+});
 
+describe('Creating records', () => {
   it('should save a new user', async () => {
     user = new User({ name: userName });
+    expect(user.isNew).toEqual(true);
     await user.save();
-    expect(!user.isNew).toEqual(true);
+    expect(user.isNew).toEqual(false);
   });
 });
