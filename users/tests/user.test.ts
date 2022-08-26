@@ -8,7 +8,8 @@ describe('User', () => {
     _id: Types.ObjectId;
   };
 
-  const username = 'Joe';
+  const userName = 'John';
+  const updatedUserName = 'Jane';
 
   beforeAll(async () => {
     await database.connect('users_test');
@@ -24,7 +25,7 @@ describe('User', () => {
     });
 
     it('should save a new user', async () => {
-      user = new User({ name: username });
+      user = new User({ name: userName });
       await user.save();
       expect(!user.isNew).toEqual(true);
     });
@@ -32,7 +33,7 @@ describe('User', () => {
 
   describe('Reading records', () => {
     it('should find records with a given name', async () => {
-      const users = await User.find({ name: username }).select('name');
+      const users = await User.find({ name: userName }).select('name');
       expect(users[0]._id).toEqual(user._id);
       expect(users[0]._id.toString()).toBe(user._id.toString());
     });
@@ -46,7 +47,7 @@ describe('User', () => {
   describe('Deleting records', () => {
     beforeEach(async () => {
       await User.collection.drop();
-      user = new User({ name: username });
+      user = new User({ name: userName });
       await user.save();
     });
 
@@ -76,6 +77,56 @@ describe('User', () => {
       await User.findByIdAndRemove({ _id: user._id });
       const doesUserExit = await User.any({ _id: user._id });
       expect(doesUserExit).toBeFalsy();
+    });
+  });
+
+  describe('Updating records', () => {
+    beforeEach(async () => {
+      await User.collection.drop();
+      user = new User({ name: userName });
+      await user.save();
+    });
+
+    it('should update records using instance method **set - save**', async () => {
+      // update attributes
+      user.set('name', updatedUserName);
+
+      // save into database
+      await user.save();
+      const users = await User.find({ name: updatedUserName }).select('name');
+      expect(users.length).toBe(1);
+      expect(users[0].name).toEqual(user.name);
+    });
+
+    it('should update records using instance method **update**', async () => {
+      await user.update({ name: updatedUserName });
+      const users = await User.find({ name: updatedUserName }).select('name');
+      expect(users.length).toBe(1);
+      expect(users[0].name).toEqual(updatedUserName);
+    });
+
+    it('should update one record using class method **updateOne**', async () => {
+      await User.updateOne({ name: userName }, { name: updatedUserName });
+      const user = await User.findOne({ name: updatedUserName });
+      expect(user!).not.toBeNull();
+      expect(user!.name).toEqual(updatedUserName);
+    });
+
+    it('should update one record using class method **findOneAndUpdate**', async () => {
+      await User.findOneAndUpdate(
+        { name: userName },
+        { name: updatedUserName }
+      );
+      const user = await User.findOne({ name: updatedUserName });
+      expect(user!).not.toBeNull();
+      expect(user!.name).toEqual(updatedUserName);
+    });
+
+    it('should update one record using class method **findOneAndUpdate**', async () => {
+      await User.findByIdAndUpdate(user._id, { name: updatedUserName });
+      const users = await User.find({ name: updatedUserName });
+      expect(users!).not.toMatchObject([]);
+      expect(users![0].name).toEqual(updatedUserName);
     });
   });
 });
