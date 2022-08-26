@@ -83,7 +83,7 @@ describe('User', () => {
   describe('Updating records', () => {
     beforeEach(async () => {
       await User.collection.drop();
-      user = new User({ name: userName });
+      user = new User({ name: userName, postCount: 0 });
       await user.save();
     });
 
@@ -127,6 +127,12 @@ describe('User', () => {
       const users = await User.find({ name: updatedUserName });
       expect(users!).not.toMatchObject([]);
       expect(users![0].name).toEqual(updatedUserName);
+    });
+
+    it('should increment record postCount by 1', async () => {
+      await User.updateOne({ name: userName }, { $inc: { postCount: 1 } });
+      const users = await User.find({ name: userName });
+      expect(users![0].postCount).toEqual(user.postCount + 1);
     });
   });
 });

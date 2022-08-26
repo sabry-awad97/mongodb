@@ -2,6 +2,7 @@ import { model, Schema, Document, Model } from 'mongoose';
 
 interface IUser {
   name: string;
+  postCount: number;
 }
 
 export interface IUserDoc extends IUser, Document {}
@@ -12,6 +13,9 @@ interface IUserModel extends Model<IUser> {
 
 const UserSchema = new Schema<IUserDoc>({
   name: String,
+  postCount: {
+    type: Number,
+  },
 });
 
 UserSchema.static('any', async function any(query) {
