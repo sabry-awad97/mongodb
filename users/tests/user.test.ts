@@ -175,5 +175,14 @@ describe('User', () => {
         },
       });
     });
+
+    it('should disallow invalid records from being created', async () => {
+      const user = new User({ name: 'AB' });
+      try {
+        await user.save();
+      } catch (error: any) {
+        expect(error.errors.name.message).toMatch('2 characters');
+      }
+    });
   });
 });
