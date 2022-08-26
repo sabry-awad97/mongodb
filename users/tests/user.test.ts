@@ -10,6 +10,7 @@ describe('User', () => {
 
   const userName = 'John';
   const updatedUserName = 'Jane';
+  const increment = 1;
 
   beforeAll(async () => {
     await database.connect('users_test');
@@ -130,9 +131,12 @@ describe('User', () => {
     });
 
     it('should increment record postCount by 1', async () => {
-      await User.updateOne({ name: userName }, { $inc: { postCount: 1 } });
+      await User.updateOne(
+        { name: userName },
+        { $inc: { postCount: increment } }
+      );
       const users = await User.find({ name: userName });
-      expect(users![0].postCount).toEqual(user.postCount + 1);
+      expect(users![0].postCount).toEqual(user.postCount + increment);
     });
   });
 });
