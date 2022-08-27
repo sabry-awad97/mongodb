@@ -35,7 +35,7 @@ beforeEach(async () => {
 });
 
 describe('Middlware', async () => {
-  it('users clean up dangling blogposts on remove', async () => {
+  it('should clean up dangling blogposts on remove records', async () => {
     await user.remove();
     const count = await BlogPost.count();
     expect(count).toEqual(0);
