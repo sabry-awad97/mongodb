@@ -39,6 +39,12 @@ UserSchema.static('any', async function any(query) {
   return result ? true : false;
 });
 
+UserSchema.pre('remove', async function save(next) {
+  const BlogPost = await import('./blog-post').then(m => m.default);
+  await BlogPost.remove({ _id: { $in: this.blogPosts } });
+  next();
+});
+
 const User = model<IUserDoc, IUserModel>('User', UserSchema);
 
 export default User;
