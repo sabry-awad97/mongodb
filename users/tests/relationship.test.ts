@@ -39,8 +39,6 @@ beforeEach(async () => {
   await Promise.all([user.save(), blogPost.save(), comment.save()]);
 });
 
-beforeEach(async () => {});
-
 describe('Relationships', () => {
   it('should save a relation between a user and a blog post', async () => {
     const user = await User.findOne({ name: userName }).populate({
@@ -51,7 +49,7 @@ describe('Relationships', () => {
   });
 
   it('should save a full relation graph', async () => {
-    const doc = (await User.findOne({ name: userName }).populate({
+    const doc = await User.findOne({ name: userName }).populate({
       path: 'blogPosts',
       populate: {
         path: 'comments',
@@ -61,13 +59,13 @@ describe('Relationships', () => {
           model: 'User',
         },
       },
-    }))!;
+    });
 
-    const [blogPost] = doc.blogPosts as IBlogPost[];
+    const [blogPost] = doc!.blogPosts as IBlogPost[];
     const [comment] = blogPost.comments as IComment[];
     const user = comment.user as IUser;
 
-    expect(doc.name).toEqual(userName);
+    expect(doc!.name).toEqual(userName);
     expect(blogPost.title).toEqual(title);
     expect(comment.content).toEqual(content);
     expect(user.name).toEqual(userName);
