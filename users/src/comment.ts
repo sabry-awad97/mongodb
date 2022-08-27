@@ -1,8 +1,9 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Document , ObjectId, PopulatedDoc, Schema, Types } from 'mongoose';
+import { IUser } from './user';
 
 export interface IComment {
   content: string;
-  user: Types.ObjectId;
+  user: PopulatedDoc<Document<ObjectId> & IUser>;
 }
 
 interface ICommentDoc extends IComment, Document {}

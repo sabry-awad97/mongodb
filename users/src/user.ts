@@ -1,4 +1,5 @@
-import { model, Schema, Document, Model, Types } from 'mongoose';
+import { model, Schema, Document, Model, Types, PopulatedDoc } from 'mongoose';
+import { IBlogPost } from './blog-post';
 import PostSchema, { IPost } from './post';
 
 export interface IUser {
@@ -6,7 +7,7 @@ export interface IUser {
   posts: Types.DocumentArray<IPost>;
   postCount: number;
   likes: number;
-  blogPosts: Types.ObjectId;
+  blogPosts: PopulatedDoc<Document<Types.ObjectId> & IBlogPost>[];
 }
 
 interface IUserDoc extends IUser, Document {}
@@ -26,7 +27,7 @@ const UserSchema = new Schema<IUser>({
   },
   likes: Number,
   posts: [PostSchema],
-  blogPosts: { type: Schema.Types.ObjectId, ref: 'BlogPost' },
+  blogPosts: [{ type: Schema.Types.ObjectId, ref: 'BlogPost' }],
 });
 
 UserSchema.virtual('postCount').get(function (this: IUser) {
