@@ -1,4 +1,4 @@
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { describe, it, beforeAll, afterAll, beforeEach, expect } from 'vitest';
 import database from '../src';
 import BlogPost, { IBlogPost } from '../src/blog-post';

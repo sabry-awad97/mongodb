@@ -20,9 +20,7 @@ afterAll(async () => {
 beforeEach(async () => {
   const collections = await database.connection.db.collections();
 
-  for (const collection of collections) {
-    await collection.drop();
-  }
+  await Promise.all(collections.map(c => c.drop()));
 
   user = new User({ name: userName });
 

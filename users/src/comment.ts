@@ -1,4 +1,4 @@
-import { model, Document , ObjectId, PopulatedDoc, Schema, Types } from 'mongoose';
+import { model, Document, ObjectId, PopulatedDoc, Schema } from 'mongoose';
 import { IUser } from './user';
 
 export interface IComment {
