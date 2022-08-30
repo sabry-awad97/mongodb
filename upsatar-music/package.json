@@ -1,0 +1,55 @@
+{
+  "name": "electron-vite-react",
+  "productName": "Electron",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Vite React Electron boilerplate.",
+  "author": "",
+  "license": "MIT",
+  "main": "dist/electron/main/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && electron-builder",
+    "seed": "node -r tsm database/seed.ts"
+  },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.4.0",
+    "@reduxjs/toolkit": "^1.8.5",
+    "lodash": "^4.17.21",
+    "mongodb": "^4.9.0",
+    "mongoose": "^6.5.3",
+    "react-hook-form": "^7.34.2",
+    "react-input-range": "^1.3.0",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
+    "redux-form": "^8.3.8",
+    "redux-logger": "^3.0.6"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.184",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@types/redux-form": "^8.3.5",
+    "@types/redux-logger": "^3.0.9",
+    "@vitejs/plugin-react": "^2.0.1",
+    "electron": "^20.1.0",
+    "electron-builder": "^23.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.54.5",
+    "tsm": "^2.2.2",
+    "typescript": "^4.8.2",
+    "vite": "^3.0.9",
+    "vite-plugin-electron": "^0.9.1"
+  },
+  "debug": {
+    "env": {
+      "VITE_DEV_SERVER_HOST": "127.0.0.1",
+      "VITE_DEV_SERVER_PORT": 7777,
+      "VITE_DEV_SERVER_URL": "http://127.0.0.1:7777"
+    }
+  }
+}
