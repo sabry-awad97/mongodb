@@ -20,7 +20,7 @@ interface IDriver {
 }
 
 type IDriverDocumentOverrides = {
-  geometry: Types.Subdocument & IPoint;
+  geometry: Types.Subdocument<Types.ObjectId> & IPoint;
 };
 
 type IDriverModelType = Model<IDriver, {}, IDriverDocumentOverrides>;

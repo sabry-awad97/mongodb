@@ -55,4 +55,23 @@ describe('Drivers controller', () => {
 
     expect(count).toEqual(2);
   });
+
+  it('Get to /api/drivers finds drivers in a location', async () => {
+    const seattleDriver = new Driver({
+      email: 'seattle@test.com',
+      geometry: { type: 'Point', coordinates: [-122.4759902, 47.6147628] },
+    });
+
+    const miamiDriver = new Driver({
+      email: 'miami@test.com',
+      geometry: { type: 'Point', coordinates: [-80.2534507, 25.791581] },
+    });
+
+    await Promise.all([seattleDriver.save(), miamiDriver.save()]);
+
+    const response = await request(app).get('/api/drivers?lng=-80&lat=25');
+
+    expect(response.body.length).toEqual(1);
+    expect(response!.body[0].email).toEqual('miami@test.com');
+  });
 });
