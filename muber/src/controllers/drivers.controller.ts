@@ -13,7 +13,7 @@ export const index: RequestHandler = async (req, res, next) => {
             coordinates: [parseFloat(lng as string), parseFloat(lat as string)],
           },
           spherical: true,
-          maxDistance: 200000,
+          maxDistance: 200_000,
           distanceField: 'distance',
         },
       },

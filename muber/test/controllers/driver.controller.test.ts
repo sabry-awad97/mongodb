@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 
 import request from 'supertest';
 import app from '../../src/app';
@@ -7,7 +7,11 @@ import mongoose from 'mongoose';
 
 beforeAll(async () => {
   await mongoose.connect('mongodb://localhost/muber_test');
+});
+
+beforeEach(async () => {
   await Driver.collection.drop();
+  await Driver.ensureIndexes();
 });
 
 afterAll(async () => {
@@ -40,6 +44,9 @@ describe('Drivers controller', () => {
       .send({ driving: true });
 
     const found = await Driver.findOne({ email: 'test@example.com' });
+
+    console.log(found);
+
     expect(found).not.toBeNull();
     expect(found!.driving).toEqual(true);
   });
@@ -53,7 +60,7 @@ describe('Drivers controller', () => {
 
     const count = await Driver.countDocuments();
 
-    expect(count).toEqual(2);
+    expect(count).toEqual(0);
   });
 
   it('Get to /api/drivers finds drivers in a location', async () => {
