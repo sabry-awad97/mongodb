@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 
 import request from 'supertest';
 import app from '../../src/app';
@@ -42,5 +42,17 @@ describe('Drivers controller', () => {
     const found = await Driver.findOne({ email: 'test@example.com' });
     expect(found).not.toBeNull();
     expect(found!.driving).toEqual(true);
+  });
+
+  it('Delete to /api/drivers/:id can delete a record', async () => {
+    const driver = new Driver({ email: 'example@test.com' });
+
+    await driver.save();
+
+    await request(app).delete(`/api/drivers/${driver._id}`);
+
+    const count = await Driver.countDocuments();
+
+    expect(count).toEqual(2);
   });
 });
