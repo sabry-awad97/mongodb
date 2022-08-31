@@ -1,4 +1,4 @@
-import { describe, it, expect } from '../node_modules/vitest/dist/index';
+import { describe, it, expect } from 'vitest';
 import request from 'supertest';
 import app from '../src/app';
 
