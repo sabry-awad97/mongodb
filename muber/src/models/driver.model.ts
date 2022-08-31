@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Subdocument definition
 interface IPoint {
-  coordinates: number[];
+  coordinates: [number, number];
   type: string;
 }
 
