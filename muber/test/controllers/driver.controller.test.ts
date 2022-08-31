@@ -6,10 +6,7 @@ import Driver from '../../src/models/driver.model';
 import mongoose from 'mongoose';
 
 beforeAll(async () => {
-  mongoose.connect('mongodb://localhost/muber_test');
-});
-
-beforeEach(async () => {
+  await mongoose.connect('mongodb://localhost/muber_test');
   await Driver.collection.drop();
 });
 
@@ -26,5 +23,24 @@ describe('Drivers controller', () => {
     const newCount = await Driver.countDocuments();
 
     expect(count + 1).toEqual(newCount);
+  });
+
+  it('Post to /api/drivers requires an email', async () => {
+    const response = await request(app).post('/api/drivers').send({});
+    expect(response.status).toEqual(422);
+  });
+
+  it('Put to /api/drivers/id can update a record', async () => {
+    const driver = new Driver({ email: 'test@example.com', driving: false });
+
+    await driver.save();
+
+    await request(app)
+      .put(`/api/drivers/${driver._id}`)
+      .send({ driving: true });
+
+    const found = await Driver.findOne({ email: 'test@example.com' });
+    expect(found).not.toBeNull();
+    expect(found!.driving).toEqual(true);
   });
 });
