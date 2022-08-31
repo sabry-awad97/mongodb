@@ -45,8 +45,6 @@ describe('Drivers controller', () => {
 
     const found = await Driver.findOne({ email: 'test@example.com' });
 
-    console.log(found);
-
     expect(found).not.toBeNull();
     expect(found!.driving).toEqual(true);
   });
