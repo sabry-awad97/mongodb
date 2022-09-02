@@ -1,0 +1,32 @@
+{
+  "name": "express-api-starter-ts",
+  "version": "1.2.0",
+  "description": " A basic starter for an express.js API with Typescript",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "node -r tsm src/index.ts",
+    "dev": "nodemon --exec npm start",
+    "test": "vitest --run"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "helmet": "^6.0.0",
+    "mongodb": "^4.9.1",
+    "morgan": "^1.10.0",
+    "vitest": "^0.22.1",
+    "zod": "^3.18.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^18.7.14",
+    "@types/supertest": "^2.0.12",
+    "supertest": "^6.2.4",
+    "tsm": "^2.2.2"
+  }
+}
